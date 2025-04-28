@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 396518474}
   - component: {fileID: 396518473}
   - component: {fileID: 396518476}
+  - component: {fileID: 396518477}
   m_Layer: 0
   m_Name: Plane (2)
   m_TagString: Untagged
@@ -245,8 +246,21 @@ MonoBehaviour:
   WallLayer:
     serializedVersion: 2
     m_Bits: 8
-  _CellSize: 0.3
+  _CellSize: 0.5
   _DebugSquare: {fileID: 9153611166993375308, guid: 28c0c674ee2b8b1419e142f2cfcbabe0, type: 3}
+--- !u!114 &396518477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396518471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FieldRefreshRate: 0.3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FieldRefreshRate: 0.3
 --- !u!1 &1566533717
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +667,7 @@ GameObject:
   - component: {fileID: 1566533719}
   - component: {fileID: 1566533718}
   - component: {fileID: 1566533722}
+  - component: {fileID: 1566533723}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -762,8 +778,21 @@ MonoBehaviour:
   WallLayer:
     serializedVersion: 2
     m_Bits: 8
-  _CellSize: 0.3
+  _CellSize: 0.5
   _DebugSquare: {fileID: 9153611166993375308, guid: 28c0c674ee2b8b1419e142f2cfcbabe0, type: 3}
+--- !u!114 &1566533723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566533717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FieldRefreshRate: 0.3
 --- !u!1 &1593675729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1226,7 @@ GameObject:
   - component: {fileID: 1837972491}
   - component: {fileID: 1837972490}
   - component: {fileID: 1837972493}
+  - component: {fileID: 1837972494}
   m_Layer: 0
   m_Name: Plane (3)
   m_TagString: Untagged
@@ -1307,8 +1337,21 @@ MonoBehaviour:
   WallLayer:
     serializedVersion: 2
     m_Bits: 8
-  _CellSize: 0.3
+  _CellSize: 0.5
   _DebugSquare: {fileID: 9153611166993375308, guid: 28c0c674ee2b8b1419e142f2cfcbabe0, type: 3}
+--- !u!114 &1837972494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837972488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FieldRefreshRate: 0.3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -3,17 +3,15 @@ using UnityEngine;
 public class Chunk : MonoBehaviour
 {
     FlowField Fields;
+
+    float timer;
+    [SerializeField] float FieldRefreshRate;
     void Start()
     {
         if(TryGetComponent(out Fields))
         {
-            Fields.Init();
+            RegenerateField();
         }
-    }
-
-    void Update()
-    {
-        
     }
 
     public Node[,] GetPath(Node pGoal)
@@ -25,5 +23,10 @@ public class Chunk : MonoBehaviour
         }
 
         return Fields.GetFlowField(pGoal);
+    }
+
+    public void RegenerateField()
+    {
+        Fields.Init();
     }
 }

@@ -135,8 +135,10 @@ public class FlowField : MonoBehaviour
                     if (!CheckNodeOccupancy(lCurrentNode))
                     {
                         lCurrentNode.cost = -2;
+                        /*
                         GameObject lSquare = Instantiate(_DebugSquare);
                         lSquare.transform.position = lCurrentNode.position;
+                        */
                     }
                 }
 
