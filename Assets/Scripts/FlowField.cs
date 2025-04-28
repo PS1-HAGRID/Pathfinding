@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FlowField : MonoBehaviour
 {
+    [SerializeField] private int CurrentDestination;
     public enum Dir
     {
         Left, Right, Top, Bottom, TopRight, BottomRight, TopLeft, BottomLeft
@@ -21,11 +22,40 @@ public class FlowField : MonoBehaviour
 
     private Bounds Bounds;
 
-    void Start()
+    bool isInit = false;
+
+    public void Init()
     {
         Bounds = GetComponent<MeshRenderer>().bounds;
         InitDictionnary();
         _Fields = GenerateFields();
+        isInit = true;
+    }
+
+    private void Update()
+    {
+        if(!isInit)
+        {
+            return;
+        }
+
+        if(CurrentDestination < _Fields.Length && CurrentDestination >= 0)
+        {
+            ShowFlowField(_Fields[CurrentDestination]);
+        }
+    }
+
+    public Node[,] GetFlowField(Node pNode)
+    {
+        for(int i = 0; i < _Exits.Length; i++) 
+        {
+            if (_Exits[i].gridPosition == pNode.gridPosition)
+            {
+                return _Fields[i];
+            }
+        }
+
+        return null;
     }
 
     private void InitDictionnary()
@@ -58,7 +88,6 @@ public class FlowField : MonoBehaviour
         {
             Node[,] lGrid = (Node[,])lStartingGrid.Clone();
             lFields[i] = GenerateField(lGrid, _Exits[i]);
-            ShowFlowField(lFields[0]);
         }
 
         return lFields;
@@ -171,93 +200,14 @@ public class FlowField : MonoBehaviour
         return pGrid;
     }
 
-    private void PrintArray(Node[,] pGrid)
-    {
-        string lRow = "";
-        for (int i = 0; i < pGrid.GetLength(0); i++)
-        {
-            string lElement = "";
-            for (int j = 0; j < pGrid.GetLength(1); j++)
-            {
-                string lResult = "";
-
-                if (j == 0)
-                {
-                    lResult += "[ ";
-                }
-
-                lResult += $"{pGrid[i,j].bestDirection}, ";
-
-                if (j == pGrid.GetLength(0) - 1)
-                {
-                    lResult += "]";
-                }
-
-                lElement += lResult;
-            }
-            lRow += lElement + " \n";
-        }
-        Debug.Log(lRow);
-    }
-
     private void ShowFlowField(Node[,] pField)
     {
         foreach (Node node in pField) 
         {
-            Debug.DrawRay(node.position, node.bestDirection * _CellSize, Color.blue, 10000);
+            Debug.DrawRay(node.position, node.bestDirection * node.size, Color.blue);
         }
-    }
-
-
-    private Node GetCheapestNeightbor(Node[,] pGrid, int pIndexX, int pIndexY)
-    {
-        float lMinCost = float.MaxValue;
-        Vector2 lBestDir = Vector2.zero;
-        Node lBestNeightbor = new Node();
-        foreach (Vector2Int lDir in lDirections.Values)
-        {
-            Vector2Int lGridPos = new Vector2Int(pIndexX, pIndexY);
-            lGridPos += lDir;
-
-            if (lGridPos.x < 0 || lGridPos.x > pGrid.GetLength(0) || lGridPos.y < 0 || lGridPos.y > pGrid.GetLength(1))
-            {
-                Node lNextCell = pGrid[lGridPos.x, lGridPos.y];
-                if (lNextCell.cost == -1)
-                {
-                    continue;
-                }
-
-                if (lNextCell.cost < lMinCost)
-                {
-                    lMinCost = lNextCell.cost;
-
-                    lBestNeightbor = lNextCell;
-                    lBestDir = lDir;
-                }
-            }
-        }
-
-        lBestNeightbor.bestDirection = lBestDir;
-        return lBestNeightbor;
-    }
-
-
-    private float CeilToHalf(float pNumber)
-    {
-        if(pNumber >= 0.75f)
-        {
-            return 1;
-        }
-        if(pNumber >= 0.25f)
-        {
-            return 0.5f;
-        }
-
-        return 0;
     }
 }
-
-
 
 public struct Node
 {
