@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class FlowField : MonoBehaviour
 {
-    [SerializeField] private int CurrentDestination;
+    [SerializeField] private Node CurrentDestination;
     public enum Dir
     {
         Left, Right, Top, Bottom, TopRight, BottomRight, TopLeft, BottomLeft
     }
 
     public Dictionary<Dir, Vector2Int> lDirections = new Dictionary<Dir, Vector2Int>();
+    public Dictionary<Node, Node[,]> lPaths = new Dictionary<Node, Node[,]>();
 
     public LayerMask WallLayer;
 
@@ -20,42 +21,38 @@ public class FlowField : MonoBehaviour
     private Node[][,] _Fields;
     private Node[] _Exits;
 
-    private Bounds Bounds;
+    public Bounds _Bounds;
 
     bool isInit = false;
 
-    public void Init()
+    public void Init(Bounds pBounds)
     {
-        Bounds = GetComponent<MeshRenderer>().bounds;
         InitDictionnary();
-        _Fields = GenerateFields();
+        _Fields = GenerateFields(pBounds);
         isInit = true;
     }
 
-    private void Update()
+    public void Update()
     {
         if(!isInit)
         {
             return;
         }
 
-        if(CurrentDestination < _Fields.Length && CurrentDestination >= 0)
+        if (CurrentDestination.position != Vector3.zero)
         {
-            ShowFlowField(_Fields[CurrentDestination]);
+            ShowFlowField(lPaths[CurrentDestination]);
         }
+    }
+
+    public Node PreviewFlowField(Node pNode)
+    {
+        return CurrentDestination = pNode;
     }
 
     public Node[,] GetFlowField(Node pNode)
     {
-        for(int i = 0; i < _Exits.Length; i++) 
-        {
-            if (_Exits[i].gridPosition == pNode.gridPosition)
-            {
-                return _Fields[i];
-            }
-        }
-
-        return null;
+        return lPaths[pNode];
     }
 
     private void InitDictionnary()
@@ -70,11 +67,13 @@ public class FlowField : MonoBehaviour
         lDirections[Dir.BottomLeft] = new Vector2Int(-1, -1);
     }
 
-    private Node[][,] GenerateFields()
+    private Node[][,] GenerateFields(Bounds pBounds)
     {
+        _Bounds = pBounds;
+
         Node[,] lStartingGrid = GenerateGrid();
 
-        _Exits = GetExits(lStartingGrid);
+        _Exits = QueryExits(lStartingGrid);
 
         Node[][,] lFields = new Node[_Exits.Length][,];
 
@@ -88,12 +87,18 @@ public class FlowField : MonoBehaviour
         {
             Node[,] lGrid = (Node[,])lStartingGrid.Clone();
             lFields[i] = GenerateField(lGrid, _Exits[i]);
+            lPaths[_Exits[i]] = lFields[i];
         }
 
         return lFields;
     }
 
-    private Node[] GetExits(Node[,] pField)
+    public Node[] GetExits()
+    {
+        return _Exits;
+    }
+
+    private Node[] QueryExits(Node[,] pField)
     {
         List<Node> lExits = new List<Node>();
         foreach (Node lNode in pField) 
@@ -109,8 +114,8 @@ public class FlowField : MonoBehaviour
 
     private Node[,] GenerateGrid()
     {
-        int lNumCellsX = Mathf.CeilToInt(Bounds.size.x / _CellSize);
-        int lNumCellsY = Mathf.CeilToInt(Bounds.size.y / _CellSize);
+        int lNumCellsX = Mathf.CeilToInt(_Bounds.size.x / _CellSize);
+        int lNumCellsY = Mathf.CeilToInt(_Bounds.size.y / _CellSize);
 
         Node[,] lField = new Node[lNumCellsX, lNumCellsY];
 
@@ -125,7 +130,7 @@ public class FlowField : MonoBehaviour
                     (j + 0.5f) * _CellSize,
                     0);
 
-                lCurrentNode.position = lPos + transform.position - Bounds.extents;
+                lCurrentNode.position = lPos + transform.position - _Bounds.extents;
                 lCurrentNode.size = _CellSize;
                 lCurrentNode.cost = 0;
                 lCurrentNode.gridPosition = new Vector2Int(i,j);
@@ -135,10 +140,6 @@ public class FlowField : MonoBehaviour
                     if (!CheckNodeOccupancy(lCurrentNode))
                     {
                         lCurrentNode.cost = -2;
-                        /*
-                        GameObject lSquare = Instantiate(_DebugSquare);
-                        lSquare.transform.position = lCurrentNode.position;
-                        */
                     }
                 }
 
@@ -151,7 +152,7 @@ public class FlowField : MonoBehaviour
 
     private bool CheckNodeOccupancy(Node pCurrentNode)
     {
-        return Physics.CheckBox(pCurrentNode.position, Vector3.one * _CellSize * 0.5f, transform.rotation, WallLayer);
+        return Physics.CheckBox(pCurrentNode.position, Vector3.one * pCurrentNode.size * 0.5f, transform.rotation, WallLayer);
     }
 
     private Node[,] GenerateField(Node[,] pGrid,Node pGoalNode)

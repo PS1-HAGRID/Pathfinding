@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fields: {fileID: 0}
   FieldRefreshRate: 0.3
 --- !u!1 &519420028
 GameObject:
@@ -653,6 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fields: {fileID: 0}
   FieldRefreshRate: 0.3
 --- !u!1 &1566533717
 GameObject:
@@ -792,6 +794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fields: {fileID: 0}
   FieldRefreshRate: 0.3
 --- !u!1 &1593675729
 GameObject:
@@ -910,8 +913,9 @@ GameObject:
   - component: {fileID: 1639447627}
   - component: {fileID: 1639447626}
   - component: {fileID: 1639447625}
-  m_Layer: 3
-  m_Name: Cube (3)
+  - component: {fileID: 1639447629}
+  m_Layer: 0
+  m_Name: Agent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1003,6 +1007,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 24.19}
+--- !u!114 &1639447629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639447624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd371e143bd6974a916a37cc28bcd84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CurrentChunk: {fileID: 1458450331}
+  _Speed: 1
 --- !u!1 &1716821007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,6 +1369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561e802964459684990c803a40b3468a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fields: {fileID: 0}
   FieldRefreshRate: 0.3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
